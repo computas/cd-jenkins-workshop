@@ -19,6 +19,8 @@ exec { 'reconfigure-timezone':
 
 # -GIT-------------------------------------------------------------------------
 # install and configure git
+
+/*
 include git
 
 git::config { 'user.name':
@@ -44,6 +46,7 @@ git::config { 'core.editor':
   user    => 'vagrant',
   require => Class['git'],
 }
+*/
 
 # -TOOLS-----------------------------------------------------------------------
 # install unzip
@@ -53,13 +56,16 @@ package { 'unzip':
 }
 
 # install ncftp - ftp client
+/*
 package { 'ncftp':
   require => Exec['apt-update'],
   ensure => installed,
 }
+*/
 
 # -VIM-------------------------------------------------------------------------
 # install spf13-vim
+/*
 exec { 'install spf13-vim':
     environment => ['HOME=/home/vagrant'],
     command => '/usr/bin/curl http://j.mp/spf13-vim3 -L -o - | sh',
@@ -68,7 +74,6 @@ exec { 'install spf13-vim':
     require => Package['git'],
 }
 
-# required for neocomplete
 package { 'vim-nox':
   require => Exec['apt-update'],
   ensure => installed,
@@ -99,6 +104,7 @@ file { '/home/vagrant/.vim/syntax/asciidoc.vim':
     source => 'puppet:///modules/vim/asciidoc.vim',
     require => [File['/home/vagrant/.vim/syntax'], Exec['install spf13-vim'] ],
 }
+*/
 
 # -SSH-------------------------------------------------------------------------
 
@@ -119,6 +125,7 @@ file { '/home/vagrant/bin/':
 }
 
 # shell configuration
+/*
 file { '/home/vagrant/.profile':
   owner  => vagrant,
   group  => vagrant,    
@@ -126,8 +133,10 @@ file { '/home/vagrant/.profile':
   ensure => 'present',
   source => 'puppet:///modules/shell/.profile',
 }
+*/
 
 # install maven
+/*
 file { '/home/vagrant/bin/maven-3.3.9':
   owner  => vagrant,
   group  => vagrant,    
@@ -137,8 +146,10 @@ file { '/home/vagrant/bin/maven-3.3.9':
   recurse => true,
   require => File['/home/vagrant/bin/'],
 }
+*/
 
 # make mvn executable
+/*
 file { '/home/vagrant/bin/maven-3.3.9/bin/mvn':
   ensure  => 'present',
   mode    => '0755',
@@ -146,4 +157,30 @@ file { '/home/vagrant/bin/maven-3.3.9/bin/mvn':
   source => 'puppet:///modules/maven/maven-3.3.9/bin/mvn',
   require => File['/home/vagrant/bin/maven-3.3.9'],
 }
+*/
 
+# -JENKINS---------------------------------------------------------------------
+# prepare apt: install key
+exec { 'install-jenkins-apt-key':
+    command => "wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -",
+    path    => '/usr/local/bin/:/usr/bin/:/bin/',
+}
+
+# prepare apt: download sources list
+exec { 'download-jenkins-apt-sources-list-update':
+    command => "sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list' && apt-get update",
+    path    => '/usr/local/bin/:/usr/bin/:/bin/',
+    require => Exec['install-jenkins-apt-key'],
+}
+
+# install jenkins
+package { 'jenkins':
+  require => Exec['download-jenkins-apt-sources-list-update'],
+  ensure => latest,
+}
+
+service { 'jenkins':
+  enable => true,
+  ensure => running,
+  require => Package['jenkins'],
+}
