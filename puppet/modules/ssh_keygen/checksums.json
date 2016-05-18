@@ -1,0 +1,20 @@
+{
+  "Gemfile": "68520ec943b621f6b8a79db909c7a158",
+  "Gemfile.lock": "949bad06a84dd6911a0b2be039d18f36",
+  "Puppetfile.lock": "bc83445b479277a81d719115f7026ccb",
+  "README.md": "87e46514047a6a7dc6141c37605f8798",
+  "Rakefile": "6b17151aa2542da1e1762a712b53fb30",
+  "manifests/init.pp": "edb93ee4e0f6a6f4ce171021a8a546fc",
+  "metadata.json": "a61106ae82f8e2074d9fe4a70629f7c6",
+  "spec/acceptance/nodesets/centos-65-x64-docker.yml": "9674bdbae4ed3135a8567b5f7a3105ff",
+  "spec/acceptance/nodesets/centos-65-x64.yml": "93493768080a4d0f2d04ef7d75b717a5",
+  "spec/acceptance/nodesets/debian-7-x64-docker.yml": "3b89e3555ba378b350ff898de2bed74a",
+  "spec/acceptance/nodesets/debian-7-x64.yml": "49a054626b92ba240aa09c2fac824a73",
+  "spec/acceptance/nodesets/default.yml": "9674bdbae4ed3135a8567b5f7a3105ff",
+  "spec/acceptance/nodesets/ubuntu-server-1404-x64-docker.yml": "452fa39e36c94494eee5a4a602a918f5",
+  "spec/acceptance/nodesets/ubuntu-server-1404-x64.yml": "ec5f2ace9479ea9c625ef8764b6c2557",
+  "spec/defines/init_spec.rb": "cfdabdeffc882639b485121d371363b1",
+  "spec/fixtures/hiera.yaml": "37ca9bf76ec6d6a251fdcc6c559a3619",
+  "spec/spec_helper.rb": "3ce7855a3a830837a3c338b33cf38baa",
+  "spec/spec_helper_acceptance.rb": "a74e3f28e6b8081d1d83e040169600b5"
+}
