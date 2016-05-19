@@ -18,19 +18,19 @@ exec { 'reconfigure-timezone':
 }
 
 # -GIT-------------------------------------------------------------------------
-# install and configure git
+# install and optionally configure git
 
 /*
 include git
 
 git::config { 'user.name':
-  value   => 'Michael Gfeller',
+  value   => 'Roaming Vagrant',
   user    => 'vagrant',
   require => Class['git'],
 }
 
 git::config { 'user.email':
-  value   => 'mgfeller@mgfeller.net',
+  value   => 'vagrant@localhost',
   user    => 'vagrant',
   require => Class['git'],
 }
@@ -176,11 +176,23 @@ exec { 'download-jenkins-apt-sources-list-update':
 # install jenkins
 package { 'jenkins':
   require => Exec['download-jenkins-apt-sources-list-update'],
-  ensure => latest,
+  ensure => installed,
 }
 
 service { 'jenkins':
   enable => true,
   ensure => running,
   require => Package['jenkins'],
+}
+
+# -MAIL------------------------------------------------------------------------
+# postfix is already installed
+package { 'mailutils':
+  require => Exec['apt-update'],
+  ensure => installed,
+}
+
+exec { 'setup-vagrant-mail':
+    command => "sudo adduser vagrant mail && sudo touch /var/mail/vagrant && sudo chown vagrant:mail /var/mail/vagrant && sudo chmod ug+rw /var/mail/vagrant",
+    path    => '/usr/local/bin/:/usr/bin/:/bin/',
 }

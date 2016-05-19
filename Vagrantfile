@@ -23,8 +23,8 @@ Vagrant.configure(2) do |config|
   # Install vbguest plugin with: 
   # vagrant plugin install vagrant-vbguest
   # Uncomment the following (change version if necessary)
-  # config.vbguest.auto_update = true
-  # config.vbguest.iso_path = 'http://download.virtualbox.org/virtualbox/5.0.20/VBoxGuestAdditions_5.0.20.iso'
+  config.vbguest.auto_update = true
+  config.vbguest.iso_path = 'http://download.virtualbox.org/virtualbox/5.0.20/VBoxGuestAdditions_5.0.20.iso'
 
   # Configure provisioning with Puppet:
   config.vm.provision :puppet do |puppet|
