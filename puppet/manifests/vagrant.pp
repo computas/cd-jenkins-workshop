@@ -1,7 +1,7 @@
 # -OS-BASICS-------------------------------------------------------------------
 # Update the index
 exec { 'apt-update':                    
-  command => '/usr/bin/apt-get update'  
+  command => '/usr/bin/apt-get -y -q update'  
 }
 
 # timezone 
@@ -115,6 +115,40 @@ ssh_keygen { 'vagrant': }
 # this installs openjdk-7-jdk on Trusty
 include java
 
+# No OpenJDK 8 on Trusty, so we install Oracle JDK 7 and 8, and set JDK 8 as default
+exec {'prepare-oracle-jdk-installation':
+    command => "apt-get -y -q install software-properties-common htop && add-apt-repository -y ppa:webupd8team/java && apt-get -y -q update",
+    path    => '/usr/local/bin/:/usr/bin/:/bin/',    
+}
+
+exec {'accept-oracle-jdk7-license':
+    command => "echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections",
+    require => Exec['prepare-oracle-jdk-installation'],
+    path    => '/usr/local/bin/:/usr/bin/:/bin/',    
+}
+
+exec {'accept-oracle-jdk8-license':
+    command => "echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections",
+    require => Exec['prepare-oracle-jdk-installation'],
+    path    => '/usr/local/bin/:/usr/bin/:/bin/',    
+}
+
+package { 'oracle-java8-installer':
+  ensure => 'installed',
+  require => Exec['accept-oracle-jdk8-license'],
+}
+
+package { 'oracle-java7-installer':
+  ensure => 'installed',
+  require => Exec['accept-oracle-jdk7-license'],
+}
+
+exec {'set-default-jdk':
+    command => "/usr/sbin/update-java-alternatives -s java-8-oracle",
+    require => Package['oracle-java8-installer'],
+    path    => '/usr/local/bin/:/usr/bin/:/bin/:/usr/sbin/',    
+}
+
 # -VAGRANT USER----------------------------------------------------------------
 # bin folder
 file { '/home/vagrant/bin/':
@@ -125,7 +159,6 @@ file { '/home/vagrant/bin/':
 }
 
 # shell configuration
-/*
 file { '/home/vagrant/.profile':
   owner  => vagrant,
   group  => vagrant,    
@@ -133,31 +166,33 @@ file { '/home/vagrant/.profile':
   ensure => 'present',
   source => 'puppet:///modules/shell/.profile',
 }
-*/
 
-# install maven
-/*
-file { '/home/vagrant/bin/maven-3.3.9':
-  owner  => vagrant,
-  group  => vagrant,    
+# -MAVEN-----------------------------------------------------------------------
+file { '/usr/share/maven/':
+  owner  => root,
+  group  => root,    
+  mode => 755,
+  ensure => 'directory',
+}
+
+file { '/usr/share/maven/maven-3.3.9':
+  owner  => root,
+  group  => root,    
   mode => 664,
   ensure => 'present',
   source => 'puppet:///modules/maven/maven-3.3.9/',
   recurse => true,
-  require => File['/home/vagrant/bin/'],
+  require => File['/usr/share/maven/'],
 }
-*/
 
 # make mvn executable
-/*
-file { '/home/vagrant/bin/maven-3.3.9/bin/mvn':
+file { '/usr/share/maven/maven-3.3.9/bin/mvn':
   ensure  => 'present',
   mode    => '0755',
-  owner    => 'vagrant',
+  owner    => 'root',
   source => 'puppet:///modules/maven/maven-3.3.9/bin/mvn',
-  require => File['/home/vagrant/bin/maven-3.3.9'],
+  require => File['/usr/share/maven/maven-3.3.9'],
 }
-*/
 
 # -JENKINS---------------------------------------------------------------------
 # prepare apt: install key
