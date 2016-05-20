@@ -1,4 +1,7 @@
 # -OS-BASICS-------------------------------------------------------------------
+# Global path
+Exec { path => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/', '/usr/local/bin/', '/usr/local/sbin/', ] }
+
 # Update the index
 exec { 'apt-update':                    
   command => '/usr/bin/apt-get -y -q update'  
@@ -6,15 +9,15 @@ exec { 'apt-update':
 
 # timezone 
 file { '/etc/timezone':
-    ensure => present,
-    content => "Europe/Oslo\n",
+  ensure => present,
+  content => "Europe/Oslo\n",
 }
 
 exec { 'reconfigure-timezone':
-        user => root,
-        group => root,
-        command => '/usr/sbin/dpkg-reconfigure --frontend noninteractive tzdata',
-        require => [File['/etc/timezone'], Exec['apt-update']],
+  user => root,
+  group => root,
+  command => '/usr/sbin/dpkg-reconfigure --frontend noninteractive tzdata',
+  require => [File['/etc/timezone'], Exec['apt-update']],
 }
 
 # -GIT-------------------------------------------------------------------------
@@ -67,11 +70,11 @@ package { 'ncftp':
 # install spf13-vim
 /*
 exec { 'install spf13-vim':
-    environment => ['HOME=/home/vagrant'],
-    command => '/usr/bin/curl http://j.mp/spf13-vim3 -L -o - | sh',
-    cwd => '/home/vagrant/',
-    creates => '/home/vagrant/.spf13-vim-3',
-    require => Package['git'],
+  environment => ['HOME=/home/vagrant'],
+  command => '/usr/bin/curl http://j.mp/spf13-vim3 -L -o - | sh',
+  cwd => '/home/vagrant/',
+  creates => '/home/vagrant/.spf13-vim-3',
+  require => Package['git'],
 }
 
 package { 'vim-nox':
@@ -80,29 +83,29 @@ package { 'vim-nox':
 }
 
 file { '/home/vagrant/.vimrc.local':
-    ensure => 'present',
-    owner  => vagrant,
-    group  => vagrant,    
-    mode => 664,    
-    source => 'puppet:///modules/vim/.vimrc.local',
-    require => Exec['install spf13-vim'],    
+  ensure => 'present',
+  owner  => vagrant,
+  group  => vagrant,    
+  mode => 664,    
+  source => 'puppet:///modules/vim/.vimrc.local',
+  require => Exec['install spf13-vim'],    
 }
 
 file { '/home/vagrant/.vim/syntax':
-    owner  => vagrant,
-    group  => vagrant,    
-    mode => 755,
-    ensure => 'directory',
-    require => Exec['install spf13-vim'],
+  owner  => vagrant,
+  group  => vagrant,    
+  mode => 755,
+  ensure => 'directory',
+  require => Exec['install spf13-vim'],
 }
 
 file { '/home/vagrant/.vim/syntax/asciidoc.vim':
-    ensure => 'present',
-    owner  => vagrant,
-    group  => vagrant,
-    mode => 664,    
-    source => 'puppet:///modules/vim/asciidoc.vim',
-    require => [File['/home/vagrant/.vim/syntax'], Exec['install spf13-vim'] ],
+  ensure => 'present',
+  owner  => vagrant,
+  group  => vagrant,
+  mode => 664,    
+  source => 'puppet:///modules/vim/asciidoc.vim',
+  require => [File['/home/vagrant/.vim/syntax'], Exec['install spf13-vim'] ],
 }
 */
 
@@ -117,20 +120,17 @@ include java
 
 # No OpenJDK 8 on Trusty, so we install Oracle JDK 7 and 8, and set JDK 8 as default
 exec {'prepare-oracle-jdk-installation':
-    command => "apt-get -y -q install software-properties-common htop && add-apt-repository -y ppa:webupd8team/java && apt-get -y -q update",
-    path    => '/usr/local/bin/:/usr/bin/:/bin/',    
+  command => "apt-get -y -q install software-properties-common htop && add-apt-repository -y ppa:webupd8team/java && apt-get -y -q update",
 }
 
 exec {'accept-oracle-jdk7-license':
-    command => "echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections",
-    require => Exec['prepare-oracle-jdk-installation'],
-    path    => '/usr/local/bin/:/usr/bin/:/bin/',    
+  command => "echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections",
+  require => Exec['prepare-oracle-jdk-installation'],
 }
 
 exec {'accept-oracle-jdk8-license':
-    command => "echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections",
-    require => Exec['prepare-oracle-jdk-installation'],
-    path    => '/usr/local/bin/:/usr/bin/:/bin/',    
+  command => "echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections",
+  require => Exec['prepare-oracle-jdk-installation'],
 }
 
 package { 'oracle-java8-installer':
@@ -144,9 +144,8 @@ package { 'oracle-java7-installer':
 }
 
 exec {'set-default-jdk':
-    command => "/usr/sbin/update-java-alternatives -s java-8-oracle",
-    require => Package['oracle-java8-installer'],
-    path    => '/usr/local/bin/:/usr/bin/:/bin/:/usr/sbin/',    
+  command => "/usr/sbin/update-java-alternatives -s java-8-oracle",
+  require => Package['oracle-java8-installer'],
 }
 
 # -VAGRANT USER----------------------------------------------------------------
@@ -197,15 +196,13 @@ file { '/usr/share/maven/maven-3.3.9/bin/mvn':
 # -JENKINS---------------------------------------------------------------------
 # prepare apt: install key
 exec { 'install-jenkins-apt-key':
-    command => "wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -",
-    path    => '/usr/local/bin/:/usr/bin/:/bin/',
+  command => "wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -",
 }
 
 # prepare apt: download sources list
 exec { 'download-jenkins-apt-sources-list-update':
-    command => "sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list' && apt-get update",
-    path    => '/usr/local/bin/:/usr/bin/:/bin/',
-    require => Exec['install-jenkins-apt-key'],
+  command => "sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list' && apt-get update",
+  require => Exec['install-jenkins-apt-key'],
 }
 
 # install jenkins
@@ -228,6 +225,33 @@ package { 'mailutils':
 }
 
 exec { 'setup-vagrant-mail':
-    command => "sudo adduser vagrant mail && sudo touch /var/mail/vagrant && sudo chown vagrant:mail /var/mail/vagrant && sudo chmod ug+rw /var/mail/vagrant",
-    path    => '/usr/local/bin/:/usr/bin/:/bin/',
+  command => "sudo adduser vagrant mail && sudo touch /var/mail/vagrant && sudo chown vagrant:mail /var/mail/vagrant && sudo chmod ug+rw /var/mail/vagrant",
+}
+
+# -ARTIFACTORY-----------------------------------------------------------------
+file { '/opt/jfrog-artifactory-oss-4.7.7.zip':
+  owner  => root,
+  group  => root,    
+  mode => 664,
+  ensure => 'present',
+  source => 'puppet:///modules/artifactory/jfrog-artifactory-oss-4.7.7.zip',
+}
+
+exec { 'unzip-artifactory':
+  command => 'unzip jfrog-artifactory-oss-4.7.7.zip',
+  cwd => '/opt',
+  creates => '/opt/artifactory-oss-4.7.7/bin/installService.sh',
+  require => File['/opt/jfrog-artifactory-oss-4.7.7.zip'],
+}
+
+exec { 'install-artifactory':
+  command => '/opt/artifactory-oss-4.7.7/bin/installService.sh',
+  cwd => '/opt/artifactory-oss-4.7.7/bin/',
+  require => Exec['unzip-artifactory'],
+}
+
+file_line { 'java-home':
+  path => '/etc/opt/jfrog/artifactory/default',
+  line => 'export JAVA_HOME=/usr/lib/jvm/java-8-oracle/',
+  require => Exec['install-artifactory'],
 }
