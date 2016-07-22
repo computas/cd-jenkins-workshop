@@ -25,11 +25,14 @@ Vagrant.configure(2) do |config|
   config.vm.synced_folder "src/", "/work/src"
   
   # Installation of "VirtualBox Guest Additions" (https://github.com/dotless-de/vagrant-vbguest):
-  # Install vbguest plugin with: 
+  # Make sure to install/upgrade vbguest plugin with: 
   # vagrant plugin install vagrant-vbguest
+  # (Re)installing this plugin fixed the EACCES error on Windows 10 described in 
+  # https://github.com/dotless-de/vagrant-vbguest/issues/189
+  #
   # Uncomment the following (change version if necessary)
-  config.vbguest.auto_update = true
-  config.vbguest.iso_path = 'http://download.virtualbox.org/virtualbox/5.0.20/VBoxGuestAdditions_5.0.20.iso'
+  # config.vbguest.auto_update = true
+  # config.vbguest.iso_path = 'http://download.virtualbox.org/virtualbox/5.1.2/VBoxGuestAdditions_5.1.2.iso'
 
   # Configure provisioning with Puppet:
   config.vm.provision :puppet do |puppet|

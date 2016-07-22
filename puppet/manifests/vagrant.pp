@@ -23,7 +23,6 @@ exec { 'reconfigure-timezone':
 # -GIT-------------------------------------------------------------------------
 # install and optionally configure git
 
-/*
 include git
 
 git::config { 'user.name':
@@ -49,7 +48,6 @@ git::config { 'core.editor':
   user    => 'vagrant',
   require => Class['git'],
 }
-*/
 
 # -TOOLS-----------------------------------------------------------------------
 # install unzip
@@ -59,16 +57,14 @@ package { 'unzip':
 }
 
 # install ncftp - ftp client
-/*
 package { 'ncftp':
   require => Exec['apt-update'],
   ensure => installed,
 }
-*/
 
 # -VIM-------------------------------------------------------------------------
 # install spf13-vim
-/*
+
 exec { 'install spf13-vim':
   environment => ['HOME=/home/vagrant'],
   command => '/usr/bin/curl http://j.mp/spf13-vim3 -L -o - | sh',
@@ -107,7 +103,6 @@ file { '/home/vagrant/.vim/syntax/asciidoc.vim':
   source => 'puppet:///modules/vim/asciidoc.vim',
   require => [File['/home/vagrant/.vim/syntax'], Exec['install spf13-vim'] ],
 }
-*/
 
 # -SSH-------------------------------------------------------------------------
 
