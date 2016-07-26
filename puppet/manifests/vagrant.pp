@@ -236,7 +236,7 @@ exec { 'unzip-artifactory':
   command => 'unzip jfrog-artifactory-oss-4.7.7.zip',
   cwd => '/opt',
   creates => '/opt/artifactory-oss-4.7.7/bin/installService.sh',
-  require => File['/opt/jfrog-artifactory-oss-4.7.7.zip'],
+  require => [Package['unzip'], File['/opt/jfrog-artifactory-oss-4.7.7.zip'] ],
 }
 
 exec { 'install-artifactory':
