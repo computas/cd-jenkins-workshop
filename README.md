@@ -13,7 +13,7 @@ The virtual box is provisioned with
 
 Note that this project has only been tested on Windows, but is expected to work elsewhere too.
 
-1. Download and install [Git](https://git-scm.com/download/).
+1. Download and install [Git](https://git-scm.com/download/). On Windows, install the (optional) Unix tools.
 2. Download and install [Vagrant](https://www.vagrantup.com/).
 3. Donwload and install [VirtualBox](https://www.virtualbox.org/).
 4. Clone this repo.
