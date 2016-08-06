@@ -1,4 +1,4 @@
-# Jenkins Workshop Server Environment
+# Continuous Delivery With Jenkins Workshop Server Environment
 
 
 The Vagrant and Puppet setup in this project installs and configures a virtual box environment for a Jenkins workshop. For instance, the environment can be used for a workshop about Continuous Delivery with Pipelines as Code.
@@ -21,5 +21,9 @@ Note that this project has only been tested on Windows, but is expected to work 
 6. Open a command line and navigate to the folder containing this repo.
 7. Run `vagrant up` (this might take  while).
 8. Run `vagrant ssh` to connect to the virtual box. This requires an SSH client. The (optional) Unix tools of the [Windows Git client](https://git-scm.com/download/win) include an SSH client. 
-9. Open http://192.168.33.10:8080 (IP address configured in the Vagrantfile) in a web browser to get started with Jenkins.
-10. Open http://192.168.33.10:8081/artifactory/ (IP address configured in the Vagrantfile) in a web browser to get started with Artifactory.
+9. Exit from this Linux terminal session.
+10. Stop the virtual box using 'vagrant halt'.
+
+Both Jenkins and Artifactory will be set up and configured as part of the workshop.
+
+The installation can be tested by opening http://192.168.33.10:8080 in a web browser to access Jenkins, and http://192.168.33.10:8081/artifactory/ to access Artifactory (might require a restart). The IP address corresponds to the one configured in the [Vagrantfile](https://github.com/mgfeller/cd-jenkins-workshop/blob/master/Vagrantfile).
