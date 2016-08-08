@@ -24,6 +24,6 @@ Note that this project has only been tested on Windows, but is expected to work 
 9. Exit from this Linux terminal session.
 10. Stop the virtual box using 'vagrant halt'.
 
-Both Jenkins and Artifactory will be set up and configured as part of the workshop.
+If you are taking part in the corresponding workshop, please do not configure Jenkins and Artifactory. They will be set up and configured as part of the workshop.
 
 The installation can be tested by opening http://192.168.33.10:8080 in a web browser to access Jenkins, and http://192.168.33.10:8081/artifactory/ to access Artifactory (might require a restart). The IP address corresponds to the one configured in the [Vagrantfile](https://github.com/mgfeller/cd-jenkins-workshop/blob/master/Vagrantfile).
