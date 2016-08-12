@@ -13,7 +13,7 @@ The virtual box is provisioned with
 
 Note that this project has only been tested on Windows, but is expected to work elsewhere too.
 
-1. Download and install [Git](https://git-scm.com/download/). On Windows, install the (optional) Unix tools.
+1. Download and install [Git](https://git-scm.com/download/). Important: see below for installation instructions on Windows.
 2. Download and install [Vagrant](https://www.vagrantup.com/).
 3. Donwload and install [VirtualBox](https://www.virtualbox.org/).
 4. Clone this repo.
@@ -26,4 +26,14 @@ Note that this project has only been tested on Windows, but is expected to work 
 
 If you are taking part in the corresponding workshop, please do not configure Jenkins and Artifactory. They will be set up and configured as part of the workshop.
 
-The installation can be tested by opening http://192.168.33.10:8080 in a web browser to access Jenkins, and http://192.168.33.10:8081/artifactory/ to access Artifactory (might require a restart). The IP address corresponds to the one configured in the [Vagrantfile](https://github.com/mgfeller/cd-jenkins-workshop/blob/master/Vagrantfile).
+The installation can be tested by opening http://192.168.33.10:8080 in a web browser to access Jenkins, and http://192.168.33.10:8081/artifactory/ to access Artifactory. The IP address corresponds to the one configured in the [Vagrantfile](https://github.com/mgfeller/cd-jenkins-workshop/blob/master/Vagrantfile). If the web pages are not available, a restart of the virtual box might solve the problem.
+
+
+## Git Configuration On Windows
+
+It is important to configure git under installation as shown below.
+
+![Use git and optional Unix tools from the Window Command Prompt.](git-windows-path-config.jpg)
+
+![Set core.autocrlf to input - Checkout as-is, commit Unix-style line endings.](git-autocrlf-config.jpg)
+
