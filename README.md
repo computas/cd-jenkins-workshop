@@ -11,7 +11,7 @@ The virtual box is provisioned with
 * git
 * Artifactory
 
-It is possible to redistribute the box after it has been provisioned, and possibly configured manually. Both Jenkins and Artifactory require manual configuration. See below for instrouctions on how to do this.
+It is possible to redistribute the box after it has been provisioned, and possibly configured manually. Both Jenkins and Artifactory require manual configuration. See below for instructions on how to do this.
 
 
 Note that this project has only been tested on Windows, but is expected to work elsewhere too.
@@ -76,4 +76,5 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "src/", "/work/src"
 end
 ```
-Make sure to set config.vm.box_url to the correct value. 
+7. Run `vagrant up` to start the box.
+8. Test as described above.
