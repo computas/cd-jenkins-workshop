@@ -62,6 +62,12 @@ package { 'ncftp':
   ensure => installed,
 }
 
+# install dos2unix
+package { 'dos2unix':
+  require => Exec['apt-update'],
+  ensure => installed,
+}
+
 # -VIM-------------------------------------------------------------------------
 # install spf13-vim
 

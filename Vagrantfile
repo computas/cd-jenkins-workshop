@@ -32,7 +32,7 @@ Vagrant.configure(2) do |config|
   #
   # Uncomment the following (change version if necessary)
   # config.vbguest.auto_update = true
-  # config.vbguest.iso_path = 'http://download.virtualbox.org/virtualbox/5.1.2/VBoxGuestAdditions_5.1.2.iso'
+  # config.vbguest.iso_path = 'http://download.virtualbox.org/virtualbox/5.1.10/VBoxGuestAdditions_5.1.10.iso'
 
   # Configure provisioning with Puppet:
   config.vm.provision :puppet do |puppet|
