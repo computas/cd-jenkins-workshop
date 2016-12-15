@@ -11,11 +11,14 @@ The virtual box is provisioned with
 * git
 * Artifactory
 
+It is possible to redistribute the box after it has been provisioned, and possibly configured manually. Both Jenkins and Artifactory require manual configuration. See below for instrouctions on how to do this.
+
+
 Note that this project has only been tested on Windows, but is expected to work elsewhere too.
 
 1. Download and install [Git](https://git-scm.com/download/). Important: see below for installation instructions on Windows.
 2. Download and install [Vagrant](https://www.vagrantup.com/).
-3. Donwload and install [VirtualBox](https://www.virtualbox.org/).
+3. Download and install [VirtualBox](https://www.virtualbox.org/).
 4. Clone this repo.
 5. Have a look at the [Vagrantfile](https://github.com/mgfeller/cd-jenkins-workshop/blob/master/Vagrantfile) for up-to-date instructions and configuration.
 6. Open a command line and navigate to the folder containing this repo.
@@ -37,3 +40,40 @@ It is important to configure git under installation as shown below.
 
 ![Set core.autocrlf to input - Checkout as-is, commit Unix-style line endings.](git-autocrlf-config.jpg)
 
+## Redistribute Provisioned Box
+
+After provisioning and possible further manual configuration, the box can be redistributed to interested parties. 
+
+The following steps are needed to create a box image (size ca 3GB).
+
+1. Run `vagrant halt`
+2. Run `vagrant package --output cd-jenkins-workshop.box`
+3. Copy cd-jenkins-workshop.box to a file share, or memory sticks.
+
+The following steps are needed to import the box image.
+
+1. Download and install [Vagrant](https://www.vagrantup.com/).
+2. Download and install [VirtualBox](https://www.virtualbox.org/).
+3. Create a directory, e.g. c:\workshop.
+4. Open a command line window, and navigate to c:\workshop
+5. Run `vagrant init`
+6. Edit the Vagrant file:
+```
+Vagrant.configure("2") do |config|
+  config.vm.box = "cd-jenkins-workshop"
+
+  # Adjust to correct path if necessary:
+  config.vm.box_url = "file://c:/box/cd-jenkins-workshop.box"
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 4096
+  end
+
+  config.vm.hostname = "jenkins-workshop"
+ 
+  config.vm.network "private_network", ip: "192.168.33.10"
+
+  config.vm.synced_folder "src/", "/work/src"
+end
+```
+Make sure to set config.vm.box_url to the correct value. 
