@@ -23,7 +23,7 @@ Note that this project has only been tested on Windows, but is expected to work 
 5. Have a look at the [Vagrantfile](https://github.com/mgfeller/cd-jenkins-workshop/blob/master/Vagrantfile) for up-to-date instructions and configuration.
 6. Open a command line and navigate to the folder containing this repo.
 7. Run `vagrant up` (this might take  while).
-8. Run `vagrant ssh` to connect to the virtual box. This requires an SSH client. The (optional) Unix tools of the [Windows Git client](https://git-scm.com/download/win) include an SSH client. 
+8. Run `vagrant ssh` to connect to the virtual box. This requires an SSH client. The (optional) Unix tools of the [Windows Git client](https://git-scm.com/download/win) include an SSH client.
 9. Exit from this Linux terminal session.
 10. Stop the virtual box using 'vagrant halt'.
 
@@ -42,7 +42,7 @@ It is important to configure git under installation as shown below.
 
 ## Redistribute Provisioned Box
 
-After provisioning and possible further manual configuration, the box can be redistributed to interested parties. 
+After provisioning and possible further manual configuration, the box can be redistributed to interested parties.
 
 The following steps are needed to create a box image (size ca 3GB).
 
@@ -54,27 +54,30 @@ The following steps are needed to import the box image.
 
 1. Download and install [Vagrant](https://www.vagrantup.com/).
 2. Download and install [VirtualBox](https://www.virtualbox.org/).
-3. Create a directory, e.g. c:\workshop.
-4. Open a command line window, and navigate to c:\workshop
-5. Run `vagrant init`
-6. Edit the Vagrant file:
-```
-Vagrant.configure("2") do |config|
-  config.vm.box = "cd-jenkins-workshop"
+3. Obtain the packaged box from someone, and store it on your PC as e.g.  c:\box\cd-jenkins-workshop.box
+4. Create a directory, e.g. c:\workshop.
+5. Open a command line window, and navigate to c:\workshop
+6. Run `vagrant init`
+7. Edit the Vagrant file, adjust config.vm.box_url and config.vm.network if necessary:
 
-  # Adjust to correct path if necessary:
-  config.vm.box_url = "file://c:/box/cd-jenkins-workshop.box"
+    ```
+    Vagrant.configure("2") do |config|
+      config.vm.box = "cd-jenkins-workshop"
 
-  config.vm.provider "virtualbox" do |v|
-    v.memory = 4096
-  end
+      # Adjust to correct path if necessary:
+      config.vm.box_url = "file://c:/box/cd-jenkins-workshop.box"
 
-  config.vm.hostname = "jenkins-workshop"
- 
-  config.vm.network "private_network", ip: "192.168.33.10"
+      config.vm.provider "virtualbox" do |v|
+        v.memory = 4096
+      end
 
-  config.vm.synced_folder "src/", "/work/src"
-end
-```
-7. Run `vagrant up` to start the box.
-8. Test as described above.
+      config.vm.hostname = "jenkins-workshop"
+
+      config.vm.network "private_network", ip: "192.168.33.10"
+
+      config.vm.synced_folder "src/", "/work/src"
+    end
+    ```
+
+8. Run `vagrant up` to start the box.
+9. Test as described above.
