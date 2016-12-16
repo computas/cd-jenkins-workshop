@@ -50,6 +50,8 @@ The following steps are needed to create a box image (size ca 3GB).
 2. Run `vagrant package --output cd-jenkins-workshop.box`
 3. Copy cd-jenkins-workshop.box to a file share, or memory sticks.
 
+## Import Redistributed Provisioned Box
+
 The following steps are needed to import the box image.
 
 1. Download and install [Vagrant](https://www.vagrantup.com/).
