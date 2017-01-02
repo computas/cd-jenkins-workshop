@@ -58,9 +58,10 @@ The following steps are needed to import the box image.
 2. Download and install [VirtualBox](https://www.virtualbox.org/).
 3. Obtain the packaged box from someone, and store it on your PC as e.g.  c:\box\cd-jenkins-workshop.box
 4. Create a directory, e.g. c:\workshop.
-5. Open a command line window, and navigate to c:\workshop
-6. Run `vagrant init`
-7. Edit the Vagrant file, adjust config.vm.box_url and config.vm.network if necessary:
+5. Create the directory src\ in the above created directory, e.g. c:\workshop\src
+6. Open a command line window, and navigate to c:\workshop
+7. Run `vagrant init`
+8. Edit the Vagrant file, adjust config.vm.box_url and config.vm.network if necessary:
 
     ```
     Vagrant.configure("2") do |config|
@@ -81,5 +82,9 @@ The following steps are needed to import the box image.
     end
     ```
 
-8. Run `vagrant up` to start the box.
-9. Test as described above.
+9. Run `vagrant up` to start the box.
+10. The installation can be tested by opening http://192.168.33.10:8080 in a web browser to access Jenkins, 
+    and http://192.168.33.10:8081/artifactory/ to access Artifactory. 
+    The IP address corresponds to the one configured in the Vagrantfile.
+    If the web pages are not available, a restart of the virtual box might solve the problem.
+    Please do not change configuration of Jenkins or Artifactory.
